@@ -1,0 +1,13 @@
+ARG TAG=latest
+FROM confluentinc/cp-server:${TAG}
+
+USER root
+
+RUN yum update -y && yum install -y \
+     libmnl \
+     iptables \
+     which 
+
+RUN rpm -i --nodeps --nosignature https://rpmfind.net/linux/centos/8-stream/BaseOS/aarch64/os/Packages/iproute-tc-5.15.0-4.el8.aarch64.rpm
+
+
