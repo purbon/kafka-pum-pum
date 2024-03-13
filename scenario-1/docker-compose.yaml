@@ -2,22 +2,26 @@
 version: '2'
 services:
 
-  broker:
-    build: 
-      dockerfile: ../dockerfile.broker
+  broker1:
+    build:
+      context: ../
+      dockerfile: dockerfile.broker
       args:
         - TAG=${TAG}
-    hostname: broker
-    container_name: broker
+    hostname: broker1
+    container_name: broker1
+    cap_add:
+      - SYS_ADMIN
+      - NET_ADMIN
     ports:
       - "9092:9092"
       - "9101:9101"
     environment:
       KAFKA_NODE_ID: 1
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
-      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://broker1:29092,PLAINTEXT_HOST://localhost:9092'
       KAFKA_METRIC_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
-      KAFKA_CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: 'broker:9092'
+      KAFKA_CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: 'broker1:29092'
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
@@ -25,8 +29,8 @@ services:
       KAFKA_JMX_PORT: 9101
       KAFKA_JMX_HOSTNAME: localhost
       KAFKA_PROCESS_ROLES: 'broker,controller'
-      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@broker:39093,2@broker2:39094,3@broker2:39095'
-      KAFKA_LISTENERS: 'PLAINTEXT://broker:29092,CONTROLLER://broker:39093,PLAINTEXT_HOST://0.0.0.0:9092'
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@broker1:39093,2@broker2:39094,3@broker3:39095'
+      KAFKA_LISTENERS: 'PLAINTEXT://broker1:29092,CONTROLLER://broker1:39093,PLAINTEXT_HOST://0.0.0.0:9092'
       KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
       KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
       KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
@@ -35,12 +39,16 @@ services:
       CLUSTER_ID: 'MkU3OEVBNTcwNTJENDM2Qk'
 
   broker2:
-    build: 
-      dockerfile: ../dockerfile.broker
+    build:
+      context: ../
+      dockerfile: dockerfile.broker
       args:
         - TAG=${TAG}
     hostname: broker2
     container_name: broker2
+    cap_add:
+      - SYS_ADMIN
+      - NET_ADMIN
     ports:
       - "9093:9093"
       - "9102:9102"
@@ -49,7 +57,7 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
       KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://broker2:29093,PLAINTEXT_HOST://localhost:9093'
       KAFKA_METRIC_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
-      KAFKA_CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: 'broker:9092'
+      KAFKA_CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: 'broker2:29093'
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
@@ -57,7 +65,7 @@ services:
       KAFKA_JMX_PORT: 9102
       KAFKA_JMX_HOSTNAME: localhost
       KAFKA_PROCESS_ROLES: 'broker,controller'
-      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@broker:39093,2@broker2:39094,3@broker2:39095'
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@broker1:39093,2@broker2:39094,3@broker3:39095'
       KAFKA_LISTENERS: 'PLAINTEXT://broker2:29093,CONTROLLER://broker2:39094,PLAINTEXT_HOST://0.0.0.0:9093'
       KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
       KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
@@ -68,11 +76,15 @@ services:
 
   broker3:
     build: 
-      dockerfile: ../dockerfile.broker
+      context: ../
+      dockerfile: dockerfile.broker
       args:
         - TAG=${TAG}
     hostname: broker3
     container_name: broker3
+    cap_add:
+      - SYS_ADMIN
+      - NET_ADMIN
     ports:
       - "9094:9094"
       - "9103:9103"
@@ -81,7 +93,7 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
       KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://broker3:29094,PLAINTEXT_HOST://localhost:9094'
       KAFKA_METRIC_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
-      KAFKA_CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: 'broker:9092'
+      KAFKA_CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: 'broker3:29094'
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
@@ -89,7 +101,7 @@ services:
       KAFKA_JMX_PORT: 9103
       KAFKA_JMX_HOSTNAME: localhost
       KAFKA_PROCESS_ROLES: 'broker,controller'
-      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@broker:39093,2@broker2:39094,3@broker2:39095'
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@broker1:39093,2@broker2:39094,3@broker3:39095'
       KAFKA_LISTENERS: 'PLAINTEXT://broker3:29094,CONTROLLER://broker3:39095,PLAINTEXT_HOST://0.0.0.0:9094'
       KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
       KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
