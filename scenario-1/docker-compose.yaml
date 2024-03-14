@@ -4,7 +4,7 @@ services:
 
   broker1:
     build:
-      context: ../
+      context: ..
       dockerfile: dockerfile.broker
       args:
         - TAG=${TAG}
@@ -16,6 +16,7 @@ services:
     ports:
       - "9092:9092"
       - "9101:9101"
+      - "7101:7101"
     environment:
       KAFKA_NODE_ID: 1
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
@@ -37,6 +38,7 @@ services:
       # Replace CLUSTER_ID with a unique base64 UUID using "bin/kafka-storage.sh random-uuid" 
       # See https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-storage-sh
       CLUSTER_ID: 'MkU3OEVBNTcwNTJENDM2Qk'
+      EXTRA_ARGS: '-javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent-0.16.1.jar=7101:/opt/jmx-exporter/kafka.yml'
 
   broker2:
     build:
@@ -52,6 +54,7 @@ services:
     ports:
       - "9093:9093"
       - "9102:9102"
+      - "7102:7102"
     environment:
       KAFKA_NODE_ID: 2
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
@@ -73,6 +76,7 @@ services:
       # Replace CLUSTER_ID with a unique base64 UUID using "bin/kafka-storage.sh random-uuid" 
       # See https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-storage-sh
       CLUSTER_ID: 'MkU3OEVBNTcwNTJENDM2Qk'
+      EXTRA_ARGS: '-javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent-0.16.1.jar=7102:/opt/jmx-exporter/kafka.yml'
 
   broker3:
     build: 
@@ -88,6 +92,7 @@ services:
     ports:
       - "9094:9094"
       - "9103:9103"
+      - "7103:7103"
     environment:
       KAFKA_NODE_ID: 3
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
@@ -109,3 +114,4 @@ services:
       # Replace CLUSTER_ID with a unique base64 UUID using "bin/kafka-storage.sh random-uuid" 
       # See https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-storage-sh
       CLUSTER_ID: 'MkU3OEVBNTcwNTJENDM2Qk'
+      EXTRA_ARGS: '-javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent-0.16.1.jar=7103:/opt/jmx-exporter/kafka.yml'
