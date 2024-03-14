@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9ddcb6bca4c01077b5edbf6c39eb874f5eb943a8db91ed069c9e177fbca3ac4a"
+            "sha256": "844aac31daf2f39a9fd3ef31ec2d6c98faf5d36ea89c801a493e1fe6f3b60453"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -172,12 +172,12 @@
         },
         "faker": {
             "hashes": [
-                "sha256:4fb0c16c71ad35d278a5fa7a4106a5c26c2b2b5c5efc47c1d67635db90b6071e",
-                "sha256:89ae0932f4f269754790569828859eaa0ae2ce73d1f3eb1f30ae7c20d4daf5ce"
+                "sha256:87d5e7730426e7b36817921679c4eaf3d810cedb8c81194f47adc3df2122ca18",
+                "sha256:dce4754921f9fa7e2003c26834093361b8f45072e0f46f172d6ca1234774ecd4"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.8'",
-            "version": "==24.1.0"
+            "version": "==24.2.0"
         },
         "idna": {
             "hashes": [
@@ -194,6 +194,15 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==24.0"
+        },
+        "prometheus-client": {
+            "hashes": [
+                "sha256:287629d00b147a32dcb2be0b9df905da599b2d82f80377083ec8463309a4bb89",
+                "sha256:cde524a85bce83ca359cc837f28b8c0db5cac7aa653a588fd7e84ba061c329e7"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.8'",
+            "version": "==0.20.0"
         },
         "python-dateutil": {
             "hashes": [

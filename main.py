@@ -1,18 +1,13 @@
-import json
 import queue
-import signal
-import threading
+import random
 import time
 from concurrent.futures import ThreadPoolExecutor
-from multiprocessing import Process
 
 import docker
 
-import asyncio
-import concurrent.futures
-
 from pumpum.deployment import ContainersManager
 from pumpum.kafka import KafkaClient
+from pumpum.monitoring import ClusterMonitor
 
 
 class Reporter:
@@ -68,9 +63,15 @@ class ClientSwarm:
 
 
 if __name__ == "__main__":
-    executor = ThreadPoolExecutor(max_workers=3)
 
-    to_produce_messages = 1000
+    monitor = ClusterMonitor(broker="localhost:7101")
+    metrics_to_watch = [
+        "kafka_server_raft_metrics_current_leader",
+    ]
+    monitor.register_metrics(metrics_to_watch=metrics_to_watch)
+    executor = ThreadPoolExecutor(max_workers=3)
+    rand = random.Random()
+    to_produce_messages = 5000
 
     bootstrap_servers = "localhost:9092,localhost:9093,localhost:9094"
     myqueue = queue.SimpleQueue()
@@ -93,9 +94,14 @@ if __name__ == "__main__":
     consumer_func = executor.submit(cs.consumer_from, topic)
 
     print("Waiting before killing a host....")
-    time.sleep(5)
+    time.sleep(10)
 
-    node = "/broker1"
+    response = monitor.query()
+    broker_id = int(response[0]['value'])
+    node = f"/broker{broker_id}"
+
+    print(f"Killing node={node}")
+
     containers.kill_a_host(hostname=node)
     time.sleep(5)
     print("Still consuming and producing....")

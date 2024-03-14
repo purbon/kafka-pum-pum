@@ -12,4 +12,6 @@ RUN yum update -y && yum install -y \
 
 RUN rpm -i --nodeps --nosignature https://rpmfind.net/linux/centos/8-stream/BaseOS/aarch64/os/Packages/iproute-tc-5.15.0-4.el8.aarch64.rpm
 
+RUN mkdir -p /opt/jmx-exporter && cd /opt/jmx-exporter && wget https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.16.1/jmx_prometheus_javaagent-0.16.1.jar
 
+COPY resources/kafka.yml /opt/jmx-exporter

@@ -2,10 +2,15 @@
 
 **Resting on the shoulders of giants**
 
-Default setup:
+Default setup, 1DC:
 
 * 3 data nodes
 * 3 coordination notes
+
+2DC setup
+
+4 data nodes (2 each dc)
+5 controller nodes (3 in DC1, 2 in DC2)
 
 ## TODO
  
